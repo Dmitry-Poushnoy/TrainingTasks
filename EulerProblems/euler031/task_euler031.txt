@@ -6,3 +6,15 @@ It is possible to make £2 in the following way:
 
 1×£1 + 1×50p + 2×20p + 1×5p + 1×2p + 3×1p
 How many different ways can £2 be made using any number of coins?
+
+01 01 01 01 01
+02 01 01 01
+02 02 01
+05
+
+
+
+d[i][j] — количество способов
+набрать сумму в j центов,
+если максимальная монета в наборе имеет i-ый номинал
+(i=0, 1, 2, 3, 4 соответствуют монетам в v[i]=1, 5, 10, 25, 50 центов)
