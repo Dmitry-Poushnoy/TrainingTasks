@@ -14,3 +14,14 @@ can be written as a 1 through 9 pandigital.
 HINT: Some products can be obtained in more
 than one way so be sure to only include
 it once in your sum.
+
+------
+There are 9! == 362_880 pandigital 9-digits numbers
+There are 8! == 40_320 pandigital 8-digits numbers
+There are 7! == 5_040 pandigital 7-digits numbers
+There are 6! == 720 pandigital 6-digits numbers
+There are 5! == 120 pandigital 5-digits numbers
+There are 4! == 24 pandigital 4-digits numbers
+There are 3! == 6 pandigital 3-digits numbers
+There are 2! == 2 pandigital 2-digits numbers
+There are 1! == 1 pandigital 1-digits numbers
