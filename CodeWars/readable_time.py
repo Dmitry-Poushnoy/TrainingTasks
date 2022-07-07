@@ -7,8 +7,6 @@
 # The maximum time never exceeds 359999 (99:59:59)
 #
 # You can find some examples in the test fixtures.
-import sec as sec
-
 
 def make_readable(seconds: int) -> str:
     try:
