@@ -1,3 +1,4 @@
+import pretty_errors
 from itertools import groupby
 
 
@@ -7,5 +8,6 @@ def sum_groups(arr: list[int]) -> int:
 
 
 if __name__ == '__main__':
+    x = 3 / 0
     arr = [1, 3, 5, 2, 4, 6, 2, 4, 1, 3, 2, 4, 1]
     print(sum_groups(arr))
