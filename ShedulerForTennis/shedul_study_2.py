@@ -44,15 +44,16 @@ class ScheduleManager:
         schedule = DailySchedule(day_date)
         self.schedules[day_date] = schedule
 
-    def book_slot(self, date_slot: datetime.date, starttime_slot: datetime.time):
-        if date_slot in self.schedules.keys():
-            schedule = self.schedules[date_slot]
+    def book_slot(self, slot_: datetime):
+        cur_day = datetime(year=slot_.year, month=slot_.month, day=slot_.day, hour=0, minute=0)
+        if cur_day in self.schedules.keys():
+            schedule = self.schedules[cur_day]
             for slot in schedule.slots:
-                if slot.start_time == starttime_slot and not slot.is_reserved:
+                if slot.start_time == slot_ and not slot.is_reserved:
                     slot.is_reserved = True
                     print(
                         f"Вы зарезервировали слот {slot.start_time} -- {slot.start_time + timedelta(minutes=SLOT_DURATION)}.")
-                elif slot.start_time == starttime_slot and slot.is_reserved:
+                elif slot.start_time == slot_ and slot.is_reserved:
                     print(
                         f"К сожалению слот {slot.start_time} -- {slot.start_time + timedelta(minutes=SLOT_DURATION)} уже занят.")
 
@@ -78,6 +79,6 @@ if __name__ == '__main__':
             print(item.start_time.strftime('%d.%m.%Y %H:%M'), item.is_reserved, item.owner, sep=' ')
 
     # Book some slots
-    y.book_slot(datetime(year=2024, month=1, day=2), datetime(year=2024, month=1, day=2) + timedelta(hours=10))
-    y.book_slot(datetime(year=2024, month=1, day=2), datetime(year=2024, month=1, day=2) + timedelta(hours=11))
-    y.book_slot(datetime(year=2024, month=1, day=2), datetime(year=2024, month=1, day=2) + timedelta(hours=10))
+    y.book_slot(datetime(year=2024, month=1, day=2, hour=10, minute=0))
+    y.book_slot(datetime(year=2024, month=1, day=2, hour=11, minute=0))
+    y.book_slot(datetime(year=2024, month=1, day=2, hour=10, minute=0))
