@@ -44,6 +44,21 @@ class ScheduleManager:
         schedule = DailySchedule(day_date)
         self.schedules[day_date] = schedule
 
+    @staticmethod
+    def initiate_conseq_schedules(start_day: datetime.date, num_of_days: int):
+        cur_day = start_day
+        end_day = start_day + timedelta(days=num_of_days)
+        while cur_day < end_day:
+            y.add_daily_schedule(cur_day)
+            cur_day += timedelta(days=1)
+
+    def print_all_schedules(self):
+        for k, v in self.schedules.items():
+            x = self.schedules[k].slots
+            print(f"\n{k.strftime('%d.%m.%Y %H:%M')}\n----------")
+            for item in x:
+                print(item.start_time.strftime('%d.%m.%Y %H:%M'), item.is_reserved, item.owner, sep=' ')
+
     def book_slot(self, slot_: datetime):
         cur_day = datetime(year=slot_.year, month=slot_.month, day=slot_.day, hour=0, minute=0)
         if cur_day in self.schedules.keys():
@@ -56,29 +71,45 @@ class ScheduleManager:
                 elif slot.start_time == slot_ and slot.is_reserved:
                     print(
                         f"К сожалению слот {slot.start_time} -- {slot.start_time + timedelta(minutes=SLOT_DURATION)} уже занят.")
+        else:
+            self.add_daily_schedule(cur_day)
+            return self.book_slot(slot_)
+
+    def unbook_slot(self, slot_: datetime):
+        cur_day = datetime(year=slot_.year, month=slot_.month, day=slot_.day, hour=0, minute=0)
+        if cur_day in self.schedules.keys():
+            schedule = self.schedules[cur_day]
+            for slot in schedule.slots:
+                if slot.start_time == slot_ and slot.is_reserved:
+                    slot.is_reserved = False
+                    print(
+                        f"Вы отменили бронь слота {slot.start_time} -- {slot.start_time + timedelta(minutes=SLOT_DURATION)}.")
+                elif slot.start_time == slot_ and not slot.is_reserved:
+                    print(
+                        f"Невозможно отменить бронь слота {slot.start_time} -- {slot.start_time + timedelta(minutes=SLOT_DURATION)}, т.к. он и так был свободен.")
+        else:
+            print(
+                f"Невозможно отменить бронь слота {slot_} -- {slot_ + timedelta(minutes=SLOT_DURATION)}, т.к. он никогда ранее не был создан.")
 
 
 # MAIN PROGRAM
+
 
 if __name__ == '__main__':
     y = ScheduleManager()
 
     # Initiate schedules for num_of_days
-    start_day = cur_day = datetime(year=2024, month=1, day=1)
-    num_of_days = 91
-    end_day = start_day + timedelta(days=num_of_days)
-    while cur_day < end_day:
-        y.add_daily_schedule(cur_day)
-        cur_day += timedelta(days=1)
+    y.initiate_conseq_schedules(datetime(year=2024, month=1, day=1), 2)
 
     # Show schedules
-    for k, v in y.schedules.items():
-        x = y.schedules[k].slots
-        print(f"\n{k.strftime('%d.%m.%Y %H:%M')}\n----------")
-        for item in x:
-            print(item.start_time.strftime('%d.%m.%Y %H:%M'), item.is_reserved, item.owner, sep=' ')
+    y.print_all_schedules()
 
     # Book some slots
     y.book_slot(datetime(year=2024, month=1, day=2, hour=10, minute=0))
     y.book_slot(datetime(year=2024, month=1, day=2, hour=11, minute=0))
     y.book_slot(datetime(year=2024, month=1, day=2, hour=10, minute=0))
+    y.book_slot(datetime(year=2024, month=6, day=1, hour=12, minute=0))
+    y.unbook_slot(datetime(year=2024, month=1, day=2, hour=11, minute=0))
+    y.unbook_slot(datetime(year=2024, month=8, day=1, hour=12, minute=0))
+
+    y.print_all_schedules()
