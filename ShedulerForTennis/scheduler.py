@@ -18,7 +18,7 @@ class Slot:
 
 
 class DailySchedule:
-    """Class for dayly schedule."""
+    """Class for daily schedule."""
 
     def __init__(self, date: datetime.date):
         self.date = date
