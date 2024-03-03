@@ -44,12 +44,11 @@ class ScheduleManager:
         schedule = DailySchedule(day_date)
         self.schedules[day_date] = schedule
 
-    @staticmethod
-    def initiate_conseq_schedules(start_day: datetime.date, num_of_days: int):
+    def initiate_conseq_schedules(self, start_day: datetime.date, num_of_days: int):
         cur_day = start_day
         end_day = start_day + timedelta(days=num_of_days)
         while cur_day < end_day:
-            y.add_daily_schedule(cur_day)
+            self.add_daily_schedule(cur_day)
             cur_day += timedelta(days=1)
 
     def print_all_schedules(self):
